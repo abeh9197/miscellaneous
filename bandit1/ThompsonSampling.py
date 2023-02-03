@@ -14,3 +14,4 @@ if __name__ == "__main__":
     arms = [Arm(0.3) for i in range(4)]
     arms.append(Arm(0.5))
     thompson_sampling(arms=arms, T=10**3)
+    
