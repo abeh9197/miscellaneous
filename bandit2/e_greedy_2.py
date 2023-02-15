@@ -50,13 +50,34 @@ def sim(Agent, N=1000, T=1000, **kwargs):
     return np.array(selected_arms), np.array(earned_rewards)
 
 
+class OracleAgent(object):
+    def __init__(self):
+        self.arm = Env.opt()
+
+    def get_arm(self):
+        return self.arm
+
+    def sample(self, arm, reward):
+        pass
+
+
 def main():
     arms_eg, rewards_eg = sim(EpsilonGreedyAgent)
-    acc = np.mean(arms_eg == Env.opt(), axis=0)
+    # acc = np.mean(arms_eg == Env.opt(), axis=0)
 
-    plt.plot(acc)
+    # plt.plot(acc)
+    # plt.xlabel(r'$t$')
+    # plt.ylabel(r'$\mathbb{E}[x(t) = x^*]$')
+    # plt.show()
+
+    """理想の行動"""
+    arms_o, rewards_o = sim(OracleAgent)
+    plt.plot(np.mean(np.cumsum(rewards_eg, axis=1), axis=0), label=r'$\varepsilon$-greedy')
+    plt.plot(np.mean(np.cumsum(rewards_o, axis=1), axis=0), label=r'Oracle')
+    
     plt.xlabel(r'$t$')
-    plt.ylabel(r'$\mathbb{E}[x(t) = x^*]$')
+    plt.ylabel('cumulative reward')
+    plt.legend()
     plt.show()
 
 
